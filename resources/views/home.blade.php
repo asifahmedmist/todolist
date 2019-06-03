@@ -72,10 +72,23 @@
                                 </div>
                             </div>
                                 <ul class="sortable-list">
-                                    <li class="sortable-item">Item51</li>
-                                    <li class="sortable-item">Item52</li>   
-                                    <li class="sortable-item">Item53</li>   
-                                    <li class="sortable-item">Item54</li>                  
+                                    @foreach($tsk_inwork as $todo_data_inwork)
+                                    <li class="sortable-item" sort_id="{{ $todo_data_inwork->sort_order }}" task_id="{{ $todo_data_inwork->id }}">
+                                        <div class="card">
+                                          <div class="card-body">{{ $todo_data_inwork->task_title }}</div>
+                                          <div class="row">
+                                              <div class="col-md-6" style="padding-left: 30px;">
+                                                  <i class="fa fa-user fa-lg"></i>
+                                                  {{ isset($todo_data_inwork->user_data->name) ? $todo_data_inwork->user_data->name : '' }}
+                                              </div>
+                                              <div class="col-md-6">
+                                                <i class="fa fa-clock-o fa-lg"></i>
+                                                  {{ date('d M Y', strtotime($todo_data_inwork->created_at)) }}
+                                              </div>
+                                          </div>
+                                        </div>
+                                    </li>
+                                    @endforeach                 
                                 </ul>             
                         </div>
                     </div> 
@@ -92,10 +105,23 @@
                                 </div>
                          </div>
                             <ul class="sortable-list">
-                                <li class="sortable-item">Item6</li>
-                                <li class="sortable-item">Item7</li>    
-                                <li class="sortable-item">Item8</li>    
-                                <li class="sortable-item">Item9</li>          
+                                @foreach($tsk_done as $todo_data_done)
+                                    <li class="sortable-item" sort_id="{{ $todo_data_done->sort_order }}" task_id="{{ $todo_data_done->id }}">
+                                        <div class="card">
+                                          <div class="card-body">{{ $todo_data_done->task_title }}</div>
+                                          <div class="row">
+                                              <div class="col-md-6" style="padding-left: 30px;">
+                                                  <i class="fa fa-user fa-lg"></i>
+                                                  {{ isset($todo_data_done->user_data->name) ? $todo_data_done->user_data->name : '' }}
+                                              </div>
+                                              <div class="col-md-6">
+                                                <i class="fa fa-clock-o fa-lg"></i>
+                                                  {{ date('d M Y', strtotime($todo_data_done->created_at)) }}
+                                              </div>
+                                          </div>
+                                        </div>
+                                    </li>
+                                    @endforeach          
                             </ul>
                         </div>  
                     </div>        
