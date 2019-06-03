@@ -8,7 +8,7 @@ class Task extends Model
 {
 	 protected $primaryKey = 'id';
 
-	 public function user() {
-        return $this->hasOne('App\User', 'id', 'id');
+	 public function user_data() {
+        return $this->hasOne('App\User', 'id', 'created_by');
     }
 }

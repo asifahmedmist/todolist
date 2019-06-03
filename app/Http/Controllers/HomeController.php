@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use Auth;
+use DB;
 
 class HomeController extends Controller
 {
@@ -26,9 +27,12 @@ class HomeController extends Controller
     public function index()
     {
         // Get all task with user assigned from database
-        $alltasks = Task::with('user')->get();
-        
-
+        $alltasks = Task::with('user_data')->get();
+        // $alltasks = DB::table('tasks')
+        //     ->leftjoin('users', 'users.id', '=', 'tasks.created_by')
+        //     ->select('users.*', 'tasks.*')
+        //     ->get();
+        //dd($alltasks);
         $tsk_todo = array();
         $tsk_inwork = array();
         $tsk_done = array();
@@ -42,6 +46,7 @@ class HomeController extends Controller
                 $tsk_done = $data;
             }
         }
+        //dd($tsk_todo);
 
         return view('home', ['tsk_todo' => $tsk_todo, 'tsk_inwork'=> $tsk_inwork, 'tsk_done'=>$tsk_done]);
     }

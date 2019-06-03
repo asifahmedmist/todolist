@@ -16,10 +16,19 @@
                                     <button class="btn btn-primary btn-sm new_task" data-toggle="modal" data-target="#addNewTask">NEW TASK</button>
                                 </div>
                                 <hr>
-                                <div class="task_lists_todo">
+                                <div id="task_lists_todo" class="task_lists">
                                     @foreach($tsk_todo as $todo_data)
                                         <div class="card">
                                           <div class="card-body">{{ $todo_data->task_title }}</div>
+                                          <div class="row">
+                                              <div class="col-md-6" style="padding-left: 30px;">
+                                                  <i class="fas fa-user"></i>
+                                                  {{ isset($todo_data->user_data->name) ? $todo_data->user_data->name : '' }}
+                                              </div>
+                                              <div class="col-md-6">
+                                                  {{ date('d-m-Y', strtotime($todo_data->created_at)) }}
+                                              </div>
+                                          </div>
                                         </div>
                                     @endforeach
                                 </div>
@@ -32,7 +41,7 @@
                                     <button class="btn btn-primary btn-sm new_task">NEW TASK</button>
                                 </div>
                                 <hr>
-                                <div class="task_lists_inwork">
+                                <div id="task_lists_inwork" class="task_lists">
                                     @foreach($tsk_inwork as $inwork_data)
                                         <div class="card">
                                           <div class="card-body">{{ $inwork_data->task_title }}</div>
@@ -95,6 +104,16 @@
 </div>
 
 <script type="text/javascript">
+
+    // $( "#task_lists_todo, #task_lists_inwork" ).sortable({
+    //       connectWith: ".task_lists"
+    //     }).disableSelection();
+
+    $('#task_lists_todo, #task_lists_inwork').sortable({
+        placeholder: "ui-state-default",
+        helper: 'clone'
+    });
+
     $(document).ready(function(){
         $(".submitTask").on( "click", function( event ) {
             $.ajax({
@@ -103,9 +122,9 @@
                data: $('#addtask').serialize(),
                success: function(data){
                     $('#addNewTask').modal('toggle');
-                    $(".task_lists_todo").append(data);
+                    $("#task_lists_todo").append(data);
                     $('html, body').animate({
-                        scrollTop: $(".task_lists_todo").offset().top
+                        scrollTop: $("#task_lists_todo").offset().top
                     }, 1000)
                     $("#task_title").val('');
                     $("#task_status").val('');
