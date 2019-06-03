@@ -15,9 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('/', 'TaskController@index');
+Route::get('/sortable', function () {
+    return view('sortable');
+});
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/submitTask', 'HomeController@submitTask');
+Route::get('/home/updateSortorder/{sortorder}/{task_id}', 'HomeController@updateSortorder');

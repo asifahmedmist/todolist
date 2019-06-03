@@ -18,6 +18,7 @@ class CreateTasksTable extends Migration
             $table->string('task_title');
             $table->tinyInteger('task_status')->default(0);
             $table->string('created_by');
+            $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
     }

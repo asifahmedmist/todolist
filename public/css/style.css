@@ -6,19 +6,49 @@
 	margin-bottom: 10px;
 }
 
-/*#sortable1, #sortable2 {
-    border: 1px solid #eee;
-    width: 142px;
-    min-height: 20px;
-    list-style-type: none;
-    margin: 0;
-    padding: 5px 0 0 0;
-    float: left;
-    margin-right: 10px;
-  }
-  #sortable1 li, #sortable2 li {
-    margin: 0 5px 5px 5px;
+#dragdrop .well{padding: 8px; border: 0; background: #e0e0e0; }
+#dragdrop .well .header{ color: #000; font-size: 14px; font-weight: bold; margin-bottom: 6px;}
+#dragdrop .well .subheader{ color: #969696; font-size: 12px; padding: 8px; border-bottom: 1px solid #ccc; background: #fff; -webkit-border-top-left-radius: 5px;
+-webkit-border-top-right-radius: 2px;
+-moz-border-radius-topleft: 2px;
+-moz-border-radius-topright: 2px;
+border-top-left-radius: 2px;
+border-top-right-radius: 2px;}
+#dragdrop .well .subheader .buttonsml{ background: #5bb95b; padding:3px; color: #fff; font-size: 11px; line-height: 9px;}
+.draglist-shift{ margin-left: -3%!important; width: 53%!important;}
+
+
+.sortable-list {
+    background-color: #fff;
+    list-style: none;
+    margin-bottom:10px;
+    min-height: 30px;
     padding: 5px;
-    font-size: 1.2em;
-    width: 120px;
-  }*/
+    
+}
+.sortable-list:last-child{ margin-bottom: 0;}
+
+
+
+
+.placeholder {
+    background-color: Yellow;
+    border: 1px dashed #666;
+    height: 40px;
+    margin-bottom: 5px;
+}
+.dragbleList{ /*max-height: 400px;*/ overflow: auto;}
+.sortable-item {
+    background:#f1f1f1 url(dragListicon.png) 10px 10px no-repeat;   
+    cursor: move;
+    display: block; 
+    margin-bottom: 2px;
+    /*padding: 6px 6px 6px 24px;*/
+    color: #5a5a5a;
+    font-size: 12px;
+    
+}
+
+.sortable-list-todo {
+	padding: 0;
+}

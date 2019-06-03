@@ -27,7 +27,7 @@ class HomeController extends Controller
     public function index()
     {
         // Get all task with user assigned from database
-        $alltasks = Task::with('user_data')->get();
+        $alltasks = Task::with('user_data')->orderby('sort_order', 'desc')->get();
         // $alltasks = DB::table('tasks')
         //     ->leftjoin('users', 'users.id', '=', 'tasks.created_by')
         //     ->select('users.*', 'tasks.*')
@@ -66,5 +66,12 @@ class HomeController extends Controller
             $insertedId = $tsk_model->id;
             return view('show_newtask_ajax', ['tasks'=> $tasks, 'insertedId'=>$insertedId]);
         }
+    }
+
+    public function updateSortorder($sortorder, $task_id) {
+        
+        $tsk_model = Task::find($task_id);
+        $tsk_model->sort_order = 1;
+        $tsk_model->save();
     }
 }
