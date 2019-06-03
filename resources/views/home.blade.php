@@ -12,8 +12,13 @@
                         <div class="col-md-4">
                             <div class="card_design">
                                 <div class="list-header">
-                                    <p>To Do List</p>
-                                    <button class="btn btn-primary btn-sm new_task" data-toggle="modal" data-target="#addNewTask">NEW TASK</button>
+                                    <div class="row">
+                                        <div class="col-md-6"><p>To Do List</p></div>
+                                        <div class="col-md-6 text-right">
+                                            <button class="btn btn-primary btn-sm new_task" data-toggle="modal" data-target="#addNewTask">NEW TASK
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <hr>
                                 <div id="task_lists_todo" class="task_lists">
@@ -22,11 +27,12 @@
                                           <div class="card-body">{{ $todo_data->task_title }}</div>
                                           <div class="row">
                                               <div class="col-md-6" style="padding-left: 30px;">
-                                                  <i class="fas fa-user"></i>
+                                                  <i class="fa fa-user fa-lg"></i>
                                                   {{ isset($todo_data->user_data->name) ? $todo_data->user_data->name : '' }}
                                               </div>
                                               <div class="col-md-6">
-                                                  {{ date('d-m-Y', strtotime($todo_data->created_at)) }}
+                                                <i class="fa fa-clock-o fa-lg"></i>
+                                                  {{ date('d M Y', strtotime($todo_data->created_at)) }}
                                               </div>
                                           </div>
                                         </div>
@@ -37,8 +43,13 @@
                         <div class="col-md-4">
                             <div class="card_design">
                                 <div class="list-header">
-                                    <p>In Work</p>
-                                    <button class="btn btn-primary btn-sm new_task">NEW TASK</button>
+                                    <div class="row">
+                                        <div class="col-md-6"><p>In Work</p></div>
+                                        <div class="col-md-6 text-right">
+                                            <button class="btn btn-primary btn-sm new_task" data-toggle="modal" data-target="#addNewTask">NEW TASK
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <hr>
                                 <div id="task_lists_inwork" class="task_lists">
@@ -53,8 +64,13 @@
                         <div class="col-md-4">
                             <div class="card_design">
                                 <div class="list-header">
-                                    <p>Done</p>
-                                    <button class="btn btn-primary btn-sm new_task">NEW TASK</button>
+                                    <div class="row">
+                                        <div class="col-md-6"><p>Done</p></div>
+                                        <div class="col-md-6 text-right">
+                                            <button class="btn btn-primary btn-sm new_task" data-toggle="modal" data-target="#addNewTask">NEW TASK
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <hr>
                             </div>
