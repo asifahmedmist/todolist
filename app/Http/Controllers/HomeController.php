@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use Illuminate\Support\Facades\Input;
 use Auth;
 use DB;
 
@@ -27,12 +28,8 @@ class HomeController extends Controller
     public function index()
     {
         // Get all task with user assigned from database
-        $alltasks = Task::with('user_data')->orderby('sort_order', 'desc')->get();
-        // $alltasks = DB::table('tasks')
-        //     ->leftjoin('users', 'users.id', '=', 'tasks.created_by')
-        //     ->select('users.*', 'tasks.*')
-        //     ->get();
-        //dd($alltasks);
+        $alltasks = Task::with('user_data')->orderby('sort_order', 'asc')->get();
+
         $tsk_todo = array();
         $tsk_inwork = array();
         $tsk_done = array();
@@ -43,7 +40,7 @@ class HomeController extends Controller
             } elseif($data->task_status == 1) {
                 $tsk_inwork[] = $data;
             } else {
-                $tsk_done = $data;
+                $tsk_done[] = $data;
             }
         }
         //dd($tsk_todo);
@@ -68,10 +65,24 @@ class HomeController extends Controller
         }
     }
 
-    public function updateSortorder($sortorder, $task_id) {
+    public function updateSortorder() {
         
-        $tsk_model = Task::find($task_id);
-        $tsk_model->sort_order = 1;
-        $tsk_model->save();
+        $tasks = Task::all();
+        $id = Input::get('id');
+        $sorting = Input::get('sorting');
+        foreach ($tasks as $item) {
+            return Task::where('id', '=', $id)->update(array('sort_order' => $sorting));
+        }
+    }
+
+    public function updateTaskStatus() {
+        $list_id = Input::get('list_id');
+        $task_id = Input::get('task_id');
+
+        if($list_id == 'sortable-todo') $list_type = 0;
+        elseif($list_id == 'sortable-inwork') $list_type = 1;
+        else $list_type = 2;
+
+        return Task::where('id', '=', $task_id)->update(array('task_status' => $list_type));
     }
 }

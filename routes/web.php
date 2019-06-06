@@ -23,4 +23,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/submitTask', 'HomeController@submitTask');
-Route::get('/home/updateSortorder/{sortorder}/{task_id}', 'HomeController@updateSortorder');
+Route::get('/home/updateSortorder', 'HomeController@updateSortorder');
+Route::get('/home/updateTaskStatus', 'HomeController@updateTaskStatus');

@@ -38,9 +38,9 @@
                                 </div>
                             </div>
                             <div class="dragbleList">
-                            <ul class="sortable-list">
+                            <ul id="sortable-todo" class="sortable-list">
                             @foreach($tsk_todo as $todo_data)
-                            <li class="sortable-item" sort_id="{{ $todo_data->sort_order }}" task_id="{{ $todo_data->id }}">
+                            <li id="{{ $todo_data->id }}" class="sortable-item" sort_id="{{ $todo_data->sort_order }}" task_id="{{ $todo_data->id }}" list_type="0">
                                 <div class="card">
                                   <div class="card-body">{{ $todo_data->task_title }}</div>
                                   <div class="row">
@@ -71,9 +71,9 @@
                                     </div>
                                 </div>
                             </div>
-                                <ul class="sortable-list">
+                                <ul id="sortable-inwork" class="sortable-list" list_type="1">
                                     @foreach($tsk_inwork as $todo_data_inwork)
-                                    <li class="sortable-item" sort_id="{{ $todo_data_inwork->sort_order }}" task_id="{{ $todo_data_inwork->id }}">
+                                    <li id="{{ $todo_data_inwork->id }}" class="sortable-item" sort_id="{{ $todo_data_inwork->sort_order }}" task_id="{{ $todo_data_inwork->id }}" list_type="1">
                                         <div class="card">
                                           <div class="card-body">{{ $todo_data_inwork->task_title }}</div>
                                           <div class="row">
@@ -103,25 +103,25 @@
                                         </button>
                                     </div>
                                 </div>
-                         </div>
-                            <ul class="sortable-list">
+                            </div>
+                            <ul id="sortable-done" class="sortable-list" list_type="2">
                                 @foreach($tsk_done as $todo_data_done)
-                                    <li class="sortable-item" sort_id="{{ $todo_data_done->sort_order }}" task_id="{{ $todo_data_done->id }}">
-                                        <div class="card">
-                                          <div class="card-body">{{ $todo_data_done->task_title }}</div>
-                                          <div class="row">
-                                              <div class="col-md-6" style="padding-left: 30px;">
-                                                  <i class="fa fa-user fa-lg"></i>
-                                                  {{ isset($todo_data_done->user_data->name) ? $todo_data_done->user_data->name : '' }}
-                                              </div>
-                                              <div class="col-md-6">
-                                                <i class="fa fa-clock-o fa-lg"></i>
-                                                  {{ date('d M Y', strtotime($todo_data_done->created_at)) }}
-                                              </div>
+                                <li id="{{ $todo_data_done->id }}" class="sortable-item" sort_id="{{ $todo_data_done->sort_order }}" task_id="{{ $todo_data_done->id }}" list_type="2">
+                                    <div class="card">
+                                      <div class="card-body">{{ $todo_data_done->task_title }}</div>
+                                      <div class="row">
+                                          <div class="col-md-6" style="padding-left: 30px;">
+                                              <i class="fa fa-user fa-lg"></i>
+                                              {{ isset($todo_data_done->user_data->name) ? $todo_data_done->user_data->name : '' }}
                                           </div>
-                                        </div>
-                                    </li>
-                                    @endforeach          
+                                          <div class="col-md-6">
+                                            <i class="fa fa-clock-o fa-lg"></i>
+                                              {{ date('d M Y', strtotime($todo_data_done->created_at)) }}
+                                          </div>
+                                      </div>
+                                    </div>
+                                </li>
+                                @endforeach          
                             </ul>
                         </div>  
                     </div>        
@@ -175,19 +175,46 @@ $(document).ready(function(){
       $('#sortable-div .sortable-list').sortable({
        connectWith: '#sortable-div .sortable-list',
         placeholder: 'placeholder',
-        update: function (event, ui) {
-            var data = $(this).sortable('serialize');
-            var sortorder = (ui.item.attr('sort_id'));
-            var task_id = (ui.item.attr('task_id'));
-            // POST to server using $.post or $.ajax
-            $.ajax({
-                type: 'GET',
-                url: "{{ url('home/updateSortorder') }}"+ '/'+ sortorder + '/' + task_id,
-                success: function(data){
-                    console.log(data);
-                }
+
+        stop: function() {
+            $.map($('.sortable-list').find('li'), function(el) {
+                //console.log(el);
+                var id = el.id;
+                var liclass = el.class;
+                var list_type = el.list_type;
+                var sorting = $(el).index();
+                //console.log(liclass);
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ url('home/updateSortorder') }}",
+                    data: {
+                        id: id,
+                        sorting: sorting
+                    },
+                    success: function(data){
+                        //console.log(data);
+                    }
+                });
             });
         }
+
+     });
+
+     $('#sortable-div .sortable-list').on("sortreceive", function( event, ui ) {
+          var list_id = this.id;
+          var task_id = (ui.item.attr('task_id'));
+          alert(task_id);
+          $.ajax({
+            type: 'GET',
+            url: "{{ url('home/updateTaskStatus') }}",
+            data: {
+                list_id: list_id,
+                task_id: task_id
+            },
+            success: function(data){
+                //console.log(data);
+            }
+        });
      });
 
     $(".submitTask").on( "click", function( event ) {
